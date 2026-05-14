@@ -1,29 +1,24 @@
 class Solution {
 public:
     vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
-        unordered_map<int,int> hash;
-        vector<int> result;
         int n = nums.size();
+        vector<int> frequency(101, 0);
+        vector<int> result;
 
         for(int i = 0; i < n; i++) {
+            frequency[nums[i]] += 1;
+        }
 
-            if(hash.count(nums[i]) > 0) {
-                continue;
-            }
-
-            int count = 0;
-            for(int j = 0; j < n; j++) {
-                if(i != j) {
-                    if(nums[i] > nums[j]) {
-                        count += 1;
-                    }
-                }
-            }
-            hash[nums[i]] = count;
+        for(int i = 1; i < 101; i++) {
+            frequency[i] += frequency[i-1];
         }
 
         for(int i = 0; i < n; i++) {
-            result.push_back(hash[nums[i]]);
+            if(nums[i] == 0) {
+                result.push_back(0);
+                continue;
+            }
+            result.push_back(frequency[nums[i]-1]);
         }
 
         return result;
