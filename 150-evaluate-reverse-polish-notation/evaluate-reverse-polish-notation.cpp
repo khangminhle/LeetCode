@@ -1,54 +1,67 @@
 class Solution {
 public:
+    bool isNumber(string a) {
+
+        if(a.size() > 1) {
+            return true;
+        }
+
+
+
+        switch(a[0]) {
+            case '+':
+                return false;
+            case '-':
+                return false;
+            case '*':
+                return false;
+            case '/':
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    int operate(int num1, int num2, string a) {
+
+        if(a.size() > 1) {
+            return INT_MIN;
+        }
+
+        cout<<"Dang operate: "<<num1<<a<<num2<<endl;
+        switch(a[0]) {
+            case '+':
+                return num1 + num2;
+            case '-':
+                return num1 - num2;
+            case '*':
+                return num1 * num2;
+            case '/':
+                return num1 / num2;
+            default:
+                return INT_MIN;
+        }
+    }
+    
     int evalRPN(vector<string>& tokens) {
         int n = tokens.size();
         vector<int> stack;
-        int result = 0;
         for(int i = 0; i < n; i++) {
 
-            if(tokens[i] == "+" ) {
-                int firstNumber = stack.back();
-                stack.pop_back();
-                int secondNumber = stack.back();
-                stack.pop_back();
-                int sum = secondNumber + firstNumber;
-                stack.push_back(sum);
-                continue;
+            if(isNumber(tokens[i])) {
+                stack.push_back(stoi(tokens[i]));
+            } else {
+                if(stack.size() > 1) {
+                    int firstNumber = stack.back();
+                    stack.pop_back();
+                    int secondNumber = stack.back();
+                    stack.pop_back();
+                    int newNumber = operate(secondNumber, firstNumber, tokens[i]);
+                    stack.push_back(newNumber);
+                }
             }
 
-            if(tokens[i] == "-") {
-                int firstNumber = stack.back();
-                stack.pop_back();
-                int secondNumber = stack.back();
-                stack.pop_back();
-                int substraction = secondNumber - firstNumber;
-                stack.push_back(substraction);
-                continue;
-            }
-
-            if(tokens[i] == "*") {
-                int firstNumber = stack.back();
-                stack.pop_back();
-                int secondNumber = stack.back();
-                stack.pop_back();
-                int multiplication = secondNumber * firstNumber;
-                stack.push_back(multiplication);
-                continue;
-            }
-
-            if(tokens[i] == "/") {
-                int firstNumber = stack.back();
-                stack.pop_back();
-                int secondNumber = stack.back();
-                stack.pop_back();
-                int division = secondNumber / firstNumber;
-                stack.push_back(division);
-                continue;
-            }
-
-            stack.push_back(stoi(tokens[i]));
         }
-
         return stack.back();
     }
 };
