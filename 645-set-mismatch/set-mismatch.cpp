@@ -2,28 +2,29 @@ class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {
         int n = nums.size();
-        unordered_set<int> unique;
-
-        int sumOfCurrentNumbers = 0;
-        int duplicate = 0;
+        vector<int> hash(n+1, 0);
 
         for(int i = 0; i < n; i++) {
-            if(unique.count(nums[i]) > 0) {
-                duplicate = nums[i];
+            hash[nums[i]] += 1;
+        }
+
+        int duplicate = -1;
+        int errorNumber = -1;
+
+        for(int i = 1; i <= n+1; i++) {
+            if(hash[i] == 2) {
+                duplicate = i;
             } else {
-                unique.insert(nums[i]);
-                sumOfCurrentNumbers += nums[i];
+                if(hash[i] == 0) {
+                    errorNumber = i;
+                }
+            }
+
+            if(duplicate != -1 && errorNumber != -1) {
+                break;
             }
         }
 
-        if(duplicate == 0 ) {
-            return {};
-        }
-
-        int errorNumber = (n*(n+1))/2 - sumOfCurrentNumbers;
-        
         return {duplicate, errorNumber};
-
-       
     }
 };
