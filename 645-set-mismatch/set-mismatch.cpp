@@ -11,7 +11,7 @@ public:
         int duplicate = -1;
         int errorNumber = -1;
 
-        for(int i = 1; i <= n+1; i++) {
+        for(int i = 1; i <= n; i++) {
             if(hash[i] == 2) {
                 duplicate = i;
             } else {
