@@ -1,4 +1,3 @@
- 
 class Solution {
 public:
     int longestPalindrome(string s) {
@@ -6,35 +5,24 @@ public:
         int n = s.size();
         unordered_map<char, int> hm;
 
+        int count = 0;
+
         for(int i = 0; i < n; i++) {
-            if(hm.count(s[i]) > 0) {
-                hm[s[i]] += 1;
-            } else {
-                hm[s[i]] = 1;
+            cout<<hm[s[i]]<<endl;
+
+            hm[s[i]] += 1;
+
+            if((hm[s[i]] % 2) == 0) {
+                count += 2;
             }
         }
 
-        int longest = 0;
-        bool flag = false;
-        for (const auto& i: hm) {
-            cout<<i.first<<" "<<i.second<<endl;
-            if((i.second % 2) == 0) {
-                longest += i.second;
-                continue;
+        for(int i = 0; i < n; i++) {
+            if(hm[s[i]] % 2 != 0) {
+                return count + 1;
             }
-
-            // Odd number
-            longest += (i.second)-1;
-            flag = true;
         }
 
-        if(flag) {
-            longest += 1;
-        }
-        
-
-        //cout<<"Longest: "<<longest<<endl;
-        //cout<<"n:"<<n<<endl;
-        return longest;
+        return count;
     }
 };
