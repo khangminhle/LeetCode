@@ -14,19 +14,13 @@ public:
 
         ListNode *h1 = l1;
         ListNode *h2 = l2;
-        
-        vector<int>result;
+
+        ListNode *result = new ListNode();
+        ListNode *head = result;
 
         int remember = 0;
 
         while(true) {
-
-            if(h1 == nullptr && h2 == nullptr) {
-                if(remember == 1) {
-                    result.push_back(1);
-                }
-                break;
-            }
 
             int value1, value2;
 
@@ -48,10 +42,10 @@ public:
             }
 
             if(sum >= 10) {
-                result.push_back(sum-10);
+                head->val = sum-10;
                 remember = 1;
             } else {
-                result.push_back(sum);
+                head->val = sum;
                 remember = 0;
             }
 
@@ -62,29 +56,29 @@ public:
             if(h2 != nullptr) {
                 h2 = h2->next;
             }
-        }
 
-        ListNode *results = new ListNode();
-        ListNode *head = results;
-        int n = result.size();
-
-        for(int i = 0; i < n; i++) {
-            head->val = result[i];
-            if(i == n-1) {
+            if(h1 == nullptr && h2 == nullptr) {
+                if(remember == 1) {
+                    head->next = new ListNode(1);
+                    head = head->next;
+                }
                 break;
             }
+
             head->next = new ListNode();
             head = head->next;
         }
+
+        
         /*
-        head = results;
+        head = result;
         
         while(head != nullptr) {
-            //cout<<head->val<<" ";
+            cout<<head->val<<" ";
             head = head->next;
         }
-        //cout<<endl;
+        cout<<endl;
         */
-        return results;
+        return result;
     }
 };
